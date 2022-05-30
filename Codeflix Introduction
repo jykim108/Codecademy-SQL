@@ -1,0 +1,97 @@
+--AGGREGATE FUNCTIONS CHALLENGE
+
+--Welcome to Code Challenge: Aggregate Functions!
+--A streaming video company, Codeflix, needs your help analyzing their user data. We’ve imported a portion of their dataset into the SQL workspace for this lesson.
+--The database contains 3 tables:
+
+users contains the basic account details for each user
+payments contains payment details for a 3 month period
+watch_history contains watch events for the users
+
+--Use COUNT() and a LIKE operator to determine the number of users that have an email ending in ‘.com’.
+
+SELECT COUNT(*)
+FROM users
+WHERE email LIKE '%.com';
+
+--Yields: 609
+
+
+--What are the most popular first names on Codeflix?
+--Use COUNT(), GROUP BY, and ORDER BY to create a list of first names and occurrences within the users table.
+--Order the data so that the most popular names are displayed first.
+
+SELECT first_name, COUNT(*)
+FROM users
+GROUP BY first_name
+ORDER BY 2 DESC;
+
+
+--Using watch_history table:
+--The UX Research team wants to see a distribution of watch durations. They want the result to contain:
+
+duration, which is the watch event duration, rounded to the closest minute
+count, the number of watch events falling into this “bucket”
+
+SELECT ROUND(watch_duration_in_minutes, 0) AS 'duration', 
+       COUNT(*) AS 'count'
+FROM watch_history
+GROUP BY 1
+ORDER BY 1 ASC;
+
+
+--Generate a table of user ids and total watch duration for users who watched more than 400 minutes of content. Use SUM(), GROUP BY, and HAVING to achieve this.
+
+SELECT user_id AS 'user', 
+       SUM(watch_duration_in_minutes) AS 'watch time'
+FROM watch_history
+GROUP BY user_id
+HAVING SUM(watch_duration_in_minutes) > 400;
+
+
+--To the nearest minute, how many minutes of content were streamed on Codeflix?
+
+SELECT ROUND(SUM(watch_duration_in_minutes), 0)
+FROM watch_history;
+
+--Yields: 121093.0
+
+
+--Of all the events in the watch_history table, what is the duration of the longest individual watch event? What is the duration of the shortest?
+--Use one query and rename the results to max and min.
+
+SELECT MAX(watch_duration_in_minutes) AS 'max', MIN(watch_duration_in_minutes) AS 'min'
+FROM watch_history;
+
+--Yields: max of 119.9 and min of 1.0
+
+
+--Using payments table:
+--Find all the users that have successfully made a payment to Codeflix and find their total amount paid.
+--Sort them by their total payments (from high to low). Use SUM(), WHERE, GROUP BY, and ORDER BY.
+
+SELECT user_id AS 'user', SUM(amount) AS 'total'
+FROM payments
+WHERE status = 'paid'
+GROUP BY 1
+ORDER BY 2 DESC;
+
+
+--Which days in this period did Codeflix collect the most money?
+--Your result should have two columns, pay_date and total amount, sorted by the latter descending.
+--This should only include successful payments (status = 'paid'). Use SUM(), GROUP BY, and ORDER BY.
+
+SELECT pay_date, SUM(amount) AS 'amount'
+FROM payments
+WHERE status = 'paid'
+GROUP BY 1
+ORDER BY 2 DESC;
+
+
+--When users successfully pay Codeflix (status = 'paid'), what is the average payment amount?
+
+SELECT ROUND(AVG(amount), 2)
+FROM payments
+WHERE status = 'paid';
+
+--Yields: 18.54
