@@ -1,0 +1,128 @@
+--QUERIES CHALLENGE
+
+
+--BABY NAMES INTRODUCTION
+--In this Code Challenge, you will be querying data from three different datasets:
+
+Baby Names
+Restaurants
+News Headlines
+
+--In the first one, you will be performing analysis on U.S. baby names. 
+--You’ll start with a table named babies with four columns: name, year, gender, number.
+
+--Find the number of girls who were named Lillian for the full span of time of the database. Select only the year and number columns.
+
+SELECT year, number
+FROM babies
+WHERE name = 'Lillian';
+
+
+--Find 20 distinct names that start with ‘S’. Select only the name column.
+
+SELECT DISTINCT name
+FROM babies
+WHERE name LIKE 'S%'
+LIMIT 20;
+
+
+--What are the top 10 names in 1880? Select the name, gender, and number columns.
+
+SELECT name, gender, number
+FROM babies
+WHERE year=1880
+ORDER BY number DESC
+LIMIT 10;
+
+
+--RESTAURANTS INTRODUCTION
+--Next up, you will be querying data on restaurants. We need your help to answer some questions and find the best dinner spots in the city!
+--You’ll work with a table named nomnom with six columns: name, neighborhood, cuisine, review, price, and health columns.
+
+--Suppose your friend Jaime wants to go out to Japanese, but you’re on a budget. Return all the restaurants that are Japanese and $$.
+--Select all the columns.
+
+SELECT *
+FROM nomnom
+WHERE cuisine = 'Japanese' AND price = '$$';
+
+
+--Your roommate Bevers can’t remember the exact name of a restaurant he went to but he knows it contains the word ‘noodle’ in it.
+--Can you find it for him using a query? Select all the columns.
+
+ SELECT * 
+ FROM nomnom
+ WHERE name LIKE '%noodle%';
+ 
+ 
+ --Some of the restaurants have not been inspected yet or are currently appealing their health grade score.
+ --Find the restaurants that have empty health values. Select all the columns.
+ 
+ SELECT *
+ FROM nomnom
+ WHERE health IS NULL;
+ 
+ 
+ --NEWS HEADLINES INTRODUCTION
+ --There is a table called news with six columns. It is full of news article headlines from different publishing companies!
+ --Order the table by title (from A-Z). Select only the title and publisher columns.
+ 
+SELECT title, publisher
+FROM news 
+ORDER BY title;
+
+
+--Which article names have the word 'bitcoin' in it? Select all the columns.
+
+SELECT *
+FROM news 
+WHERE title LIKE '%bitcoin%';
+
+
+--The category column contains the article category:
+'b' stands for Business
+'t' stands for Technology
+--What are the 20 business articles published most recently? Select all the columns.
+
+SELECT *
+FROM news
+WHERE category = 'b'
+ORDER BY timestamp DESC
+LIMIT 20;
+
+
+--Feel free to experiment more with all three tables. For example:
+
+--Is your name in babies?
+--How many babies were given your name?
+--What are the top 5 restaurants in nomnom?
+--What are the top 5 Chinese restaurants?
+--Which articles are from Wall Street Journal in news?
+--Which technology articles are from Wall Street Journal?
+
+SELECT *
+FROM babies
+WHERE name LIKE 'Jessica';
+ 
+SELECT SUM(number)
+FROM babies
+WHERE name LIKE 'Jessica';
+ 
+SELECT *
+FROM nomnom
+ORDER BY review DESC
+LIMIT 5;
+ 
+SELECT *
+FROM nomnom
+WHERE cuisine = 'Chinese'
+ORDER BY review DESC
+LIMIT 5;
+
+SELECT *
+FROM news
+WHERE publisher LIKE '%Wall Street Journal%';
+
+SELECT *
+FROM news
+WHERE publisher LIKE '%Wall Street Journal%' AND category = 't';
