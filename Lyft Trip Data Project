@@ -10,5 +10,12 @@
 --Let’s examine the three tables. What are the column names?
 
 --trips columns: id, date, pickup, dropoff, rider_id, car_id, type, cost
---riders columns: first, last, username, rating, total_trips, referred
---cars columns: model, OS, status, trips_completed
+--riders columns: id, first, last, username, rating, total_trips, referred
+--cars columns: id, model, OS, status, trips_completed
+
+
+--What’s the primary key of trips? What’s the primary key of riders? What’s the primary key of cars?
+--Primary keys for trips, riders, and cars are id
+
+
+--Try out a simple cross join between riders and cars. Is the result useful?
