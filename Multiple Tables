@@ -117,6 +117,7 @@ WHERE start_month <= month AND end_month >= month;
 
 
 --Create a final query where you aggregate over each month to count the number of subscribers.
+
 SELECT month, COUNT(*)
 FROM newspaper
 CROSS JOIN months
@@ -167,11 +168,11 @@ JOIN customers
 
 --The following query will give us the number of times that each song was played:
 
-SELECT song_id,
+[SELECT song_id,
    COUNT(*) AS 'times_played'
 FROM plays
-GROUP BY song_id;
-Use a WITH statement to alias this code as play_count.
+GROUP BY song_id;]
+--Use a WITH statement to alias this code as play_count.
 
 --Join play_count with songs and select (in this order): songs table’s title column, songs table’s artist column, play_count‘s times_played column
 --Remember that play_count.song_id will match songs.id.
