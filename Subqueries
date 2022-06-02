@@ -1,0 +1,32 @@
+--SUBQUERIES
+
+--As the name suggests, a subquery is an internal query nested inside of an external query. They can be nested inside of SELECT, INSERT, UPDATE, or DELETE statements.
+--Anytime a subquery is present, it gets executed before the external statement is run.
+--Complete the subquery to find students taking both band and drama.
+
+[SELECT first_name, last_name
+FROM band_students
+WHERE id IN (
+   ...
+   ...);]
+
+SELECT first_name, last_name
+FROM band_students
+WHERE id IN (
+  SELECT id
+  FROM drama_students
+);
+
+
+--A memo was recently released stating that 9th grade students are unable to take both drama and band concurrently. 
+--The students currently enrolled in both classes will be dropped from drama and remain in band.
+--Write a DELETE query that will remove 9th grade students enrolled in both band and drama from the drama_students table.
+
+DELETE FROM drama_students
+WHERE id IN (
+  SELECT id 
+  FROM band_students
+);
+
+
+--COMPARISON OPERATORS
