@@ -143,13 +143,13 @@ FROM online;
 --After that, we can use this name as if it’s a table and write a new query using the first query.
 --Place the whole query below into a WITH statement, inside parentheses (), and give it name previous_query:
 
-SELECT customer_id,
+[SELECT customer_id,
    COUNT(subscription_id) AS 'subscriptions'
 FROM orders
 GROUP BY customer_id
 Join the temporary table previous_query with customers table and select the following columns:
 --customers.customer_name
---previous_query.subscriptions
+--previous_query.subscriptions]
 
 WITH previous_query AS
 (SELECT customer_id,
