@@ -1,0 +1,14 @@
+--JOINING MULTIPLE TABLES
+
+--Let’s practice what we learned about joins by combining rows from different tables.
+--Suppose you are a Data Analyst at Lyft, a ride-sharing platform. For a project, you were given three tables:
+--trips: trips information
+--riders: user data
+--cars: autonomous cars
+
+
+--Let’s examine the three tables. What are the column names?
+
+--trips columns: id, date, pickup, dropoff,	rider_id,	car_id,	type,	cost
+--riders columns: first,	last,	username,	rating,	total_trips,	referred
+--cars columns: model,	OS,	status,	trips_completed
