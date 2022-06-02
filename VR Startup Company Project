@@ -54,3 +54,78 @@ LIMIT 1;
 --Yields:
 [project_name	  COUNT(*)
 FistsOfFury 	    5]
+
+
+--Which projects were chosen by multiple employees?
+
+SELECT project_name, COUNT(*)
+FROM projects
+INNER JOIN employees
+  ON projects.project_id = employees.current_project
+WHERE current_project IS NOT NULL
+GROUP BY current_project
+HAVING COUNT(employee_id) > 1;
+
+--Yields:
+[project_name	  COUNT(*)
+RocketRush	      3
+ExtremeJets	      2
+FistsOfFury	      5]
+
+
+--Each project needs at least 2 developers. How many available project positions are there for developers? 
+--Do we have enough developers to fill the needed positions?
+
+SELECT (COUNT(*) * 2) - (
+  SELECT COUNT(*)
+  FROM employees
+  WHERE current_project IS NOT NULL
+    AND position = 'Developer') AS 'Count'
+FROM projects;
+
+
+--When employees are hired at CVR, they are given the Myers-Briggs personality test. 
+--We try to diminish tension among team members by creating teams based on compatible personalities.
+--The chart shows which personality matches should be avoided. 
+--For example, an employee with the ISFP personality type should not be matched with an INFP, ENFP, or an INFJ.
+
+SELECT personality, COUNT(*)
+FROM employees
+GROUP BY personality
+ORDER BY 2 DESC
+LIMIT 1;
+
+--Yields: ENFJ count of 7
+
+
+--What are the names of projects chosen by employees with the most common personality type?
+
+SELECT projects.project_name
+FROM employees
+INNER JOIN projects
+  ON employees.current_project = projects.project_id;
+  
+--Project names: RocketRush, ZombieStorm, MMA2K, ExtremeJets, BravoBoxing, AlienInvasion, FistsofFury
+
+
+--Find the personality type most represented by employees with a selected project.
+--What are names of those employees, the personality type, and the names of the project they’ve chosen?
+
+SELECT first_name, last_name, personality, project_name, COUNT(*)
+FROM employees
+INNER JOIN projects
+  ON employees.current_project = projects.project_id
+WHERE personality = (
+  SELECT personality 
+  FROM employees
+  WHERE current_project IS NOT NULL
+  GROUP BY personality
+  ORDER BY COUNT(personality) DESC
+  LIMIT 1);
+  
+--Yields: 
+[first_name	  last_name	  personality 	project_name	COUNT(*)
+Shannan	       Arlow	        ISTJ	     RocketRush	    3]
+
+
+--For each employee, provide their name, personality, the names of any projects they’ve chosen, and the number of incompatible co-workers.
