@@ -1,0 +1,103 @@
+--CALCULATING AGGREGATES
+
+--Fiddy Cent is a digital currency exchange headquartered in Neo Tokyo. 
+--They broker exchanges of Bitcoin, Bitcoin Cash, Ethereum, and Litecoin with fiat currencies in around 50 countries.
+--Help them analyze their January ledger data using SQL aggregate functions! 
+--You are given the transactions table, which contains both money-in and money-out transactions.
+
+--Let’s start by checking out the whole transactions table:
+
+SELECT *
+FROM transactions;
+
+--What are the column names? id, user_id, date, currency, money_in, money_out
+
+
+--The money_in column records the amount (in USD) the user bought. What is the total money_in in the table?
+
+SELECT SUM(money_in)
+FROM transactions;
+
+--Total: 17173.0
+
+
+--The money_out column records the amount (in USD) the user sold. What is the total money_out in the table?
+
+SELECT SUM(money_out)
+FROM transactions;
+
+--Total: 33417.0
+
+
+--It was reported that Bitcoin dominates Fiddy Cent’s exchange. Let’s see if it is true within these dates by answering two questions:
+--How many money_in transactions are in this table?
+--How many money_in transactions are in this table where ‘BIT’ is the currency?
+
+SELECT COUNT(money_in)
+FROM transactions;
+
+--Yields: 43
+
+SELECT COUNT(money_in)
+FROM transactions
+WHERE currency = 'BIT';
+
+--Yields: 21
+
+
+--What was the largest transaction in this whole table? Was it money_in or money_out?
+
+SELECT MAX(money_in), MAX(money_out)
+FROM transactions;
+
+--MAX money_in was 6000.0 and MAX money_out was 15047.0: the largest transaction was money_out
+
+
+--What is the average money_in in the table for the currency Ethereum (‘ETH’)?
+
+SELECT MAX(money_in)
+FROM transactions
+WHERE currency = 'ETH';
+
+--Yields: 131.888888888889
+
+
+--Let’s build a ledger for the different dates.
+--Select date, average money_in, and average money_out from the table. And group everything by date.
+
+SELECT date, AVG(money_in), AVG(money_out)
+FROM transactions
+GROUP BY date;
+
+--Yields: 
+date	      AVG(money_in)	    AVG(money_out)
+2018-01-22	135.166666666667	142.4
+2018-01-23	80.0	            130.2
+2018-01-24	150.333333333333	160.5
+2018-01-25	83.6	            2243.42857142857
+2018-01-26	194.0	            150.6
+2018-01-27	175.75	          146.6
+2018-01-28	136.8	            2059.0
+2018-01-29	443.8	            141.0
+2018-01-30	91.3333333333333	124.75
+2018-01-31	2073.8	          340.2
+
+
+--To make the previous query easier to read, round the averages to 2 decimal places. Give the column aliases using AS for readability.
+
+SELECT date, ROUND(AVG(money_in), 2) AS 'Average Deposit', ROUND(AVG(money_out), 2) AS 'Average Withdrawal'
+FROM transactions
+GROUP BY date;
+
+--Yields:
+date	      Average Deposit	  Average Withdrawal
+2018-01-22	135.17	          142.4
+2018-01-23	80.0	            130.2
+2018-01-24	150.33	          160.5
+2018-01-25	83.6	            2243.43
+2018-01-26	194.0	            150.6
+2018-01-27	175.75	          146.6
+2018-01-28	136.8	            2059.0
+2018-01-29	443.8	            141.0
+2018-01-30	91.33	            124.75
+2018-01-31	2073.8	          340.2
