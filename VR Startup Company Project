@@ -1,0 +1,56 @@
+--JOINING MULTIPLE TABLES
+
+--Codecademy Virtual Reality (CVR), Inc. is the latest startup on the VR scene. 
+--As head of the Project Completion team, you have been given a list of upcoming projects needing to be delivered. 
+--Your main responsibility is to analyze our current talent pool to ensure each project can be completed efficiently and effectively.
+--Each project needs a Project Manager, Team Lead, Designer, Database Administrator (DBA), and at least two Developers.
+
+--Start by familiarizing yourself with the tables. Examine the data from the employees table.
+
+SELECT * 
+FROM employees;
+
+--employees columns: employee_id, first_name, last_name, location, position, personality, current_project
+
+
+--Examine the data in the projects table. Do you think there’s a way to join the two tables?
+
+SELECT * 
+FROM projects;
+
+--projects columns: project_id, project_name, start_date, end_date
+--INNER JOIN could show which employees are working on which project
+
+
+--What are the names of employees who have not chosen a project?
+
+SELECT first_name, last_name
+FROM employees
+WHERE current_project IS NULL;
+
+
+--What are the names of projects that were not chosen by any employees?
+
+SELECT project_name
+FROM projects 
+WHERE project_id NOT IN (
+  SELECT current_project
+  FROM employees
+  WHERE current_project IS NOT NULL
+);
+
+
+--What is the name of the project chosen by the most employees?
+
+SELECT project_name, COUNT(*)
+FROM projects
+INNER JOIN employees
+  ON projects.project_id = employees.current_project
+WHERE current_project IS NOT NULL
+GROUP BY project_name
+ORDER BY COUNT(employee_id) DESC
+LIMIT 1;
+
+--Yields:
+[project_name	  COUNT(*)
+FistsOfFury 	    5]
