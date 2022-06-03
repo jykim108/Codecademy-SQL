@@ -129,3 +129,23 @@ Shannan	       Arlow	        ISTJ	     RocketRush	    3]
 
 
 --For each employee, provide their name, personality, the names of any projects they’ve chosen, and the number of incompatible co-workers.
+
+SELECT first_name, last_name, personality, project_name, 
+  CASE 
+    WHEN personality = 'INFP' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('ISFP', 'ESFP', 'ISTP', 'ESTP', 'ISFJ', 'ESFJ', 'ISTJ', 'ESTJ'))
+    WHEN personality = 'ENFP' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('ISFP', 'ESFP', 'ISTP', 'ESTP', 'ISFJ', 'ESFJ', 'ISTJ', 'ESTJ'))
+    WHEN personality = 'INFJ' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('ISFP', 'ESFP', 'ISTP', 'ESTP', 'ISFJ', 'ESFJ', 'ISTJ', 'ESTJ'))
+    WHEN personality = 'ENFJ' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('ESFP', 'ISTP', 'ESTP', 'ISFJ', 'ESFJ', 'ISTJ', 'ESTJ'))
+    WHEN personality = 'ISFP' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ'))
+    WHEN personality = 'ESFP' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+    WHEN personality = 'ISTP' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+    WHEN personality = 'ESTP' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+    WHEN personality = 'ISFJ' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+    WHEN personality = 'ESFJ' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+    WHEN personality = 'ISTJ' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+    WHEN personality = 'ESTJ' THEN (SELECT COUNT(*) FROM employees WHERE personality IN ('INFP', 'ENFP', 'INFJ', 'ENFJ'))
+    ELSE 0
+END AS 'Incompatible'
+FROM employees
+LEFT JOIN projects
+  ON employees.current_project = projects.project_id;
