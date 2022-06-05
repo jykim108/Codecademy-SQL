@@ -82,3 +82,42 @@ WITH funnels AS (
 SELECT COUNT(*) AS num_browse, SUM(is_checkout) AS 'num_checkout', SUM (is_purchase) AS 'num_purchase', 
 (1.0 * SUM(is_checkout) / COUNT(user_id)) AS 'browse_to_checkout_users', (1.0 * SUM(is_purchase) / SUM(is_checkout)) AS 'checkout_to_purchase_users'
 FROM funnels;
+
+
+SELECT number_of_pairs, COUNT(*)
+FROM home_try_on AS 'h'
+LEFT JOIN purchase AS 'p'
+  ON h.user_id = p.user_id
+GROUP BY 1
+ORDER BY 2 DESC;
+
+--Yields:
+number_of_pairs	COUNT(*)
+3 pairs	379
+5 pairs	371
+
+SELECT DISTINCT model_name, COUNT(*)
+FROM purchase
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5;
+
+--Yields:
+model_name	COUNT(*)
+Eugene Narrow	116
+Dawes	107
+Brady	95
+Lucy	86
+Olive	50
+
+
+SELECT DISTINCT style, COUNT(*)
+FROM quiz
+GROUP BY 1
+ORDER BY 2 DESC;
+
+--Yields: 
+style                     	COUNT(*)
+Women's Styles	              469
+Men's Styles	                432
+I'm not sure. Let's skip it.	99
