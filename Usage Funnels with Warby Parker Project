@@ -75,3 +75,20 @@ LIMIT 10;
 --The most common results of the style quiz.
 --The most common types of purchase made.
 --What are some actionable insights for Warby Parker?
+
+WITH funnel AS (
+  SELECT DISTINCT q.user_id,
+  h.user_id IS NOT NULL AS 'home_try_on',
+  p.user_id IS NOT NULL AS 'purchase'
+  FROM quiz AS 'q'
+  LEFT JOIN home_try_on AS 'h'
+    ON q.user_id = h.user_id
+  LEFT JOIN purchase AS 'p'
+    ON q.user_id = p.user_id
+)
+SELECT COUNT(*) AS 'num_quiz', SUM(home_try_on) AS 'home_try_on_total', SUM(purchase) AS 'purchase_total', (1.0 * SUM(home_try_on) / COUNT(user_id)) AS 'quiz_to_home_try_on', (1.0 * SUM(purchase) / SUM(home_try_on)) AS 'home_try_on_to_purchase'
+FROM funnel;
+
+--Yields:
+num_quiz	 home_try_on_total	 purchase_total 	quiz_to_home_try_on 	home_try_on_to_purchase
+ 1000	          750	              495	              0.75                 	0.66
