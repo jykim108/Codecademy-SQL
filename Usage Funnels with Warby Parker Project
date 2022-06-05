@@ -91,4 +91,4 @@ FROM funnel;
 
 --Yields:
 num_quiz	 home_try_on_total	 purchase_total 	quiz_to_home_try_on 	home_try_on_to_purchase
- 1000	          750	              495	              0.75                 	0.66
+ 1000	          750	              495	               0.75                  	0.66
