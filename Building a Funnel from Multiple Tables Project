@@ -105,10 +105,10 @@ LIMIT 5;
 --Yields:
 model_name	COUNT(*)
 Eugene Narrow	116
-Dawes	107
-Brady	95
-Lucy	86
-Olive	50
+Dawes       	107
+Brady       	95
+Lucy        	86
+Olive	        50
 
 
 SELECT DISTINCT style, COUNT(*)
@@ -118,6 +118,6 @@ ORDER BY 2 DESC;
 
 --Yields: 
 style                     	COUNT(*)
-Women's Styles	              469
+Women's Styles	               469
 Men's Styles	                432
 I'm not sure. Let's skip it.	99
