@@ -16,14 +16,14 @@
  --columns: question, user_id, response
  
  
- --Users will “give up” at different points in the survey. Let’s analyze how many users move from Question 1 to Question 2, etc.
+--Users will “give up” at different points in the survey. Let’s analyze how many users move from Question 1 to Question 2, etc.
 --Create a quiz funnel using the GROUP BY command.
 --What is the number of responses for each question?
 
- SELECT question, COUNT(DISTINCT user_id)
- FROM survey
- GROUP BY 1
- ORDER BY 2 DESC;
+SELECT question, COUNT(DISTINCT user_id)
+FROM survey
+GROUP BY 1
+ORDER BY 2 DESC;
  
  
  --Warby Parker’s purchase funnel is: Take the Style Quiz → Home Try-On → Purchase the Perfect Pair of Glasses
@@ -57,3 +57,21 @@ LIMIT 5;
 --If the user has any entries in purchase, then is_purchase will be True.
 --Use a LEFT JOIN to combine the three tables, starting with the top of the funnel (quiz) and ending with the bottom of the funnel (purchase).
 --Select only the first 10 rows from this table (otherwise, the query will run really slowly).
+
+SELECT q.user_id, h.user_id IS NOT NULL AS 'is_home_try_on', number_of_pairs, p.user_id IS NOT NULL AS 'is_purchase'
+FROM quiz AS 'q'
+LEFT JOIN home_try_on AS 'h'
+  ON q.user_id = h.user_id
+LEFT JOIN purchase AS 'p'
+  ON q.user_id = p.user_id
+LIMIT 10;
+
+
+--Once we have the data in this format, we can analyze it in several ways:
+--We can calculate overall conversion rates by aggregating across all rows.
+--We can compare conversion from quiz→home_try_on and home_try_on→purchase.
+--We can calculate the difference in purchase rates between customers who had 3 number_of_pairs with ones who had 5.
+--We can also use the original tables to calculate things like:
+--The most common results of the style quiz.
+--The most common types of purchase made.
+--What are some actionable insights for Warby Parker?
