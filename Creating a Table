@@ -66,5 +66,5 @@ SELECT * FROM friends;
 
 --Yields: 
 id	  name	          birthday	 email
-2	  Jennifer Lopez	 1969-07-24	 jlo@gmail.com
+2	  Jennifer Lopez 1969-07-24	 jlo@gmail.com
 3	  Jay Z	           1969-12-04	 jayz@yahoo.com
